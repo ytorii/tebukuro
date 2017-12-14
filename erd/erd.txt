@@ -1,0 +1,59 @@
+@startuml
+
+package "tebukuro" as target_system {
+    entity "Community" as community {
+        + community_id
+        --
+        name
+        description
+    }
+
+    entity "Events" as event {
+        + event_id
+        --
+        # community_id
+        name
+        description
+    }
+
+    entity "Participants" as participant {
+        + participant_id
+        --
+        # event_id
+        name
+    }
+
+    entity "Tickets" as ticket {
+        + ticket_id
+        --
+        # event_id
+        quota（定員）
+        size_of_admission（申込済み人数）
+        size_of_numbered（待ち人数）
+    }
+
+    entity "Admission_tickets" as admission_ticket {
+        + admission_ticket_id
+        --
+        # participant_id
+        # ticket_id
+    }
+
+    entity "Numbered_tickets" as numbered_ticket {
+        + numbered_ticket_id
+        --
+        # participant_id
+        # ticket_id
+    }
+}
+
+community   --{ event
+event       --{ ticket
+event       -o{ participant
+participant --o{ admission_ticket
+participant --o{ numbered_ticket
+ticket      --o{ admission_ticket
+ticket      --o{ numbered_ticket
+
+@enduml
+
